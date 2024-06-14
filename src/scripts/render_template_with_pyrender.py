@@ -4,7 +4,7 @@ from tqdm import tqdm
 import time
 from omegaconf import DictConfig, OmegaConf
 from functools import partial
-from src.poses.utils import get_obj_poses_from_template_level
+from cnos.poses.utils import get_obj_poses_from_template_level
 import multiprocessing
 import logging
 import os.path as osp

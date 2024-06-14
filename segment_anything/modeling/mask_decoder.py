@@ -126,7 +126,7 @@ class MaskDecoder(nn.Module):
         src = torch.repeat_interleave(image_embeddings, tokens.shape[0], dim=0)
         src = src + dense_prompt_embeddings
         pos_src = torch.repeat_interleave(image_pe, tokens.shape[0], dim=0)
-        b, c, h, w = src.shape
+        b, c, h, w = cnos.shape
 
         # Run the transformer
         hs, src = self.transformer(src, pos_src, tokens)
@@ -134,7 +134,7 @@ class MaskDecoder(nn.Module):
         mask_tokens_out = hs[:, 1 : (1 + self.num_mask_tokens), :]
 
         # Upscale mask embeddings and predict masks using the mask tokens
-        src = src.transpose(1, 2).view(b, c, h, w)
+        src = cnos.transpose(1, 2).view(b, c, h, w)
         upscaled_embedding = self.output_upscaling(src)
         hyper_in_list: List[torch.Tensor] = []
         for i in range(self.num_mask_tokens):
