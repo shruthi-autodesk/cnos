@@ -1,13 +1,13 @@
 import os
 import numpy as np
 import pathlib
-from src.utils.inout import get_root_project
+from cnos.utils.inout import get_root_project
 from scipy.spatial.transform import Rotation
 import torch
 from torch import nn
 import math
 from scipy.spatial.distance import cdist
-from src.poses.fps import FPS
+from cnos.poses.fps import FPS
 
 def opencv2opengl(cam_matrix_world):
     transform = np.array([[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]])
@@ -73,12 +73,12 @@ def get_obj_poses_from_template_level(
     root_project = get_root_project()
     if return_cam:
         obj_poses_path = os.path.join(
-            root_project, f"src/poses/predefined_poses/cam_poses_level{level}.npy"
+            root_project, f"src/cnos/poses/predefined_poses/cam_poses_level{level}.npy"
         )
         obj_poses = np.load(obj_poses_path)
     else:
         obj_poses_path = os.path.join(
-            root_project, f"src/poses/predefined_poses/obj_poses_level{level}.npy"
+            root_project, f"src/cnos/poses/predefined_poses/obj_poses_level{level}.npy"
         )
         obj_poses = np.load(obj_poses_path)
 

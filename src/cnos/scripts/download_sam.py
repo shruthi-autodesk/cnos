@@ -23,7 +23,7 @@ def download_model(url, output_path):
 
 @hydra.main(
     version_base=None,
-    config_path="../../configs",
+    config_path="/home/rlab/Documents/Github/shruthi/cnos/configs",
     config_name="download",
 )
 def download(cfg: DictConfig) -> None:

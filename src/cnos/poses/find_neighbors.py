@@ -1,7 +1,7 @@
 import numpy as np
 # import open3d as o3d
 import os
-from src.poses.utils import (
+from cnos.poses.utils import (
     get_obj_poses_from_template_level,
     get_root_project,
     NearestTemplateFinder,
