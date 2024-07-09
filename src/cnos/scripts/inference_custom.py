@@ -71,7 +71,7 @@ def visualize(rgb, detections, save_path="./tmp/tmp.png"):
     concat.paste(prediction, (img.shape[1], 0))
     return concat
         
-def run_inference(template_dir, rgb_path, num_max_dets, conf_threshold, stability_score_thresh):
+def run_inference(template_dir, rgb, num_max_dets, conf_threshold, stability_score_thresh):
     with initialize(version_base=None, config_path="../../configs"):
         cfg = compose(config_name='run_inference.yaml')
     cfg_segmentor = cfg.model.segmentor_model
@@ -123,7 +123,7 @@ def run_inference(template_dir, rgb_path, num_max_dets, conf_threshold, stabilit
     logging.info(f"Ref feats: {ref_feats.shape}")
     
     # run inference
-    rgb = Image.open(rgb_path).convert("RGB")
+    rgb = Image.fromarray(rgb)
     detections = model.segmentor_model.generate_masks(np.array(rgb))
     detections = Detections(detections)
     decriptors = model.descriptor_model.forward(np.array(rgb), detections)
@@ -146,11 +146,12 @@ def run_inference(template_dir, rgb_path, num_max_dets, conf_threshold, stabilit
         
     detections.to_numpy()
     save_path = f"{template_dir}/cnos_results/detection"
-    detections.save_to_file(0, 0, 0, save_path, "custom", return_results=False)
+    results = detections.save_to_file(0, 0, 0, save_path, "custom", return_results=True)
     detections = convert_npz_to_json(idx=0, list_npz_paths=[save_path+".npz"])
     save_json_bop23(save_path+".json", detections)
-    vis_img = visualize(rgb, detections)
+    vis_img = visualize(rgb, detections, save_path=f"{template_dir}/cnos_results/vis.png")
     vis_img.save(f"{template_dir}/cnos_results/vis.png")
+    return vis_img, results
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
