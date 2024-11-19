@@ -10,7 +10,7 @@ import os, sys
 import os.path as osp
 from hydra import initialize, compose
 # set level logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.CRITICAL)
 import logging
 import numpy as np
 from hydra.utils import instantiate
